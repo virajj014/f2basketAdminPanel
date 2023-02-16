@@ -1,0 +1,105 @@
+.manageproducts {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.manageproducts .table {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    margin-top: 30px;
+    max-height: 80vh;
+    overflow: scroll;
+}
+
+.manageproducts .table .table-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #000;
+    background-color: rgb(255, 244, 94);
+}
+
+.manageproducts .table h3 {
+    width: 30%;
+    text-align: left;
+    padding: 0px;
+    margin: 0px;
+}
+
+.manageproducts .tablebody {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.manageproducts .tablebody .product {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #000;
+}
+
+.manageproducts .tablebody .product img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.manageproducts .tablebody .product div {
+    width: 30%;
+    text-align: left;
+}
+
+.prodsearchbar {
+    width: 500px;
+    align-self: center;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 20px;
+}
+
+.table button{
+    background-color: rgb(255, 244, 94);
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+
+.editproductout{
+    background-color: rgb(255, 244, 94);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0.9;
+    flex-direction: column;
+}
+
+.goback{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color:white;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
