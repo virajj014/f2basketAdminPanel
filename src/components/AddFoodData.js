@@ -7,6 +7,25 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Navbar from './Navbar';
 //
 const AddproductData = () => {
+
+
+    const [islogin , setislogin] = React.useState(false)
+
+    const checklogin = () => {
+        if(localStorage.getItem('admin')){
+            setislogin(true)
+        }
+        else{
+            setislogin(false)
+            window.location.href = '/login'
+        }
+    }
+
+    React.useEffect(()=>{
+        checklogin()
+    },[])
+
+
     const [productName, setproductName] = useState('')
     const [productPrice, setproductPrice] = useState('')
     const [productImage, setproductImage] = useState(null)
@@ -16,6 +35,11 @@ const AddproductData = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
+        if(islogin == false){
+            alert('Please login first')
+            return
+        }
 
         if (productImage == null) {
             alert('Please select an image')
@@ -65,7 +89,7 @@ const AddproductData = () => {
         <div className="product-outermost">
             <Navbar />
             <div className="form-outer">
-                <h1>Add Product Data</h1>
+                <h1 className='order-head1'>Add Product Data</h1>
                 <form className="form-inner">
                     <label>Product Name</label>
                     <input type="text" name="product_name"
@@ -73,24 +97,22 @@ const AddproductData = () => {
                     <br />
 
 
-                    <div className="form-row">
-                        <div className="form-col">
-                            <label>Product Price</label>
-                            <input type="number" name="product_price"
-                                onChange={(e) => { setproductPrice(e.target.value) }}
-                            />
-                        </div>
-                        <div className="form-col">
-                            <label>Product Price Unit</label>
-                            <select name="product_price_unit" onChange={(e) => { setproductpriceunit(e.target.value) }}>
-                                <option value="null">Select Product Price Unit</option>
-                                <option value="kg">Kg</option>
-                                <option value="piece">Piece</option>
-                                <option value="dozen">Dozen</option>
-                            </select>
-                        </div>
-                        <br />
-                    </div>
+
+                    <label>Product Price</label>
+                    <input type="number" name="product_price"
+                        onChange={(e) => { setproductPrice(e.target.value) }}
+                    />
+
+                    <label>Product Price Unit</label>
+                    <select name="product_price_unit" onChange={(e) => { setproductpriceunit(e.target.value) }}>
+                        <option value="null">Select Product Price Unit</option>
+                        <option value="kg">Kg</option>
+                        <option value="piece">Piece</option>
+                        <option value="dozen">Dozen</option>
+                    </select>
+
+                    <br />
+
                     <label>Product Category</label>
                     <select name="product_category" onChange={(e) => { setproductCategory(e.target.value) }}>
                         <option value="null">Select Product Category</option>

@@ -1,0 +1,66 @@
+.logincont{
+    width: 100%;
+    height: 100vh;
+    background-color: var(--col1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logincont .loginformcont{
+    width: 50%;
+    height: 50%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+.logincont .loginformcont h1{
+    font-size:3rem;
+    font-weight: 400;
+    color: var(--col1);
+    margin: 10px 0px;
+}
+
+.logincont .loginformcont form{
+    width: 100%;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+}
+
+.logincont .loginformcont form input{
+    width: 80%;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0px 10px;
+    margin: 10px 0px;
+}
+
+.logincont .loginformcont form button{
+    width: 80%;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    padding: 0px 10px;
+    margin: 10px 0px;
+    background-color: var(--col1);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+
+@media screen and (max-width: 900px) {
+    .logincont .loginformcont{
+        width: 90%;
+        height: 50%;
+    }
+}

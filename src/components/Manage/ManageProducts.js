@@ -11,6 +11,23 @@ import 'firebase/firestore'
 
 
 const ManageProducts = () => {
+    const [islogin , setislogin] = React.useState(false)
+
+    const checklogin = () => {
+        if(localStorage.getItem('admin')){
+            setislogin(true)
+        }
+        else{
+            setislogin(false)
+            window.location.href = '/login'
+        }
+    }
+
+    React.useEffect(()=>{
+        checklogin()
+    },[])
+
+    
     const [products, setproducts] = useState(null)
     const getallproducts = () => {
         let temp = []
@@ -134,16 +151,16 @@ const ManageProducts = () => {
                 onChange={(e) => setKeyword(e.target.value)} />
             {
                 products && products.length > 0 &&
-                <div className='table'>
-                    <div className='table-header'>
-                        <h3>Image</h3>
-                        <h3>Name</h3>
-                        <h3>Price</h3>
-                        <h3>Category</h3>
-                        <h3>Unit</h3>
-                        <button>Edit</button>
-                    </div>
-                    <div className='tablebody'>
+                <table>
+                    <thead>
+                        <th scope="col">Image</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Unit</th>
+                        <th scope="col">Edit</th>
+                    </thead>
+                    <tbody>
                         {
                             products
                                 .filter((product) => {
@@ -165,21 +182,37 @@ const ManageProducts = () => {
                                 })
                                 .map((product, index) => {
                                     return (
-                                        <div className='product' key={index}>
-                                            <div><img src={product.productImageUrl} alt="" /></div>
-                                            <h3>{product.productName}</h3>
-                                            <h3>Rs. {product.productPrice}</h3>
-                                            <h3>{product.productCategory}</h3>
-                                            <h3>{product.productpriceunit}</h3>
-                                            <button
-                                                onClick={() => editproduct(product)}
-                                            >Edit</button>
-                                        </div>
+                                        <tr className='product' key={index}>
+                                            <td
+                                                data-label="IMAGE"
+                                            ><img src={product.productImageUrl} alt="" /></td>
+                                            <td
+                                                data-label="NAME"
+                                            >{product.productName}</td>
+                                            <td
+                                                data-label="PRICE"
+                                            >Rs. {product.productPrice}</td>
+                                            <td
+                                                data-label="CATEGORY"
+                                            >{product.productCategory}</td>
+                                            <td
+                                                data-label="UNIT"
+                                            >{product.productpriceunit}</td>
+                                            <td
+                                                data-label="EDIT"
+                                            >
+                                                <div>
+                                                    <button
+                                                        onClick={() => editproduct(product)}
+                                                    >Edit</button>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     )
                                 })
                         }
-                    </div>
-                </div>
+                    </tbody>
+                </table>
             }
 
 
@@ -209,27 +242,21 @@ const ManageProducts = () => {
                             <br />
 
 
-                            <div className="form-row">
-                                <div className="form-col">
-                                    <label>Product Price</label>
-                                    <input type="number" name="product_price"
-                                        value={productPrice}
-                                        onChange={(e) => { setproductPrice(e.target.value) }}
-                                    />
-                                </div>
-                                <div className="form-col">
-                                    <label>Product Price Unit</label>
-                                    <select name="product_price_unit" onChange={(e) => {
-                                        setproductpriceunit(e.target.value)
-                                    }}>
-                                        <option value="null">Select Product Price Unit</option>
-                                        <option value="kg">Kg</option>
-                                        <option value="piece">Piece</option>
-                                        <option value="dozen">Dozen</option>
-                                    </select>
-                                </div>
-                                <br />
-                            </div>
+                            <label>Product Price</label>
+                            <input type="number" name="product_price"
+                                value={productPrice}
+                                onChange={(e) => { setproductPrice(e.target.value) }}
+                            />
+
+                            <label>Product Price Unit</label>
+                            <select name="product_price_unit" onChange={(e) => {
+                                setproductpriceunit(e.target.value)
+                            }}>
+                                <option value="null">Select Product Price Unit</option>
+                                <option value="kg">Kg</option>
+                                <option value="piece">Piece</option>
+                                <option value="dozen">Dozen</option>
+                            </select>
                             <label>Product Category</label>
                             <select name="product_category" onChange={(e) => { setproductCategory(e.target.value) }}>
                                 <option value="null">Select Product Category</option>

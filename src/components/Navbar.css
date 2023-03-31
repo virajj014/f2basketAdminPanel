@@ -1,5 +1,5 @@
 .navbar {
-    background-color: #000;
+    background-color: var(--col1);
     color: #fff;
     display: flex;
     justify-content: space-between;
@@ -29,5 +29,50 @@
     cursor: pointer;
     border: 1px solid white;
     padding: 5px 20px;
+    border-radius: 1.2rem;
+}
+
+.nav-left h1{
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+    .navbar{
+        flex-direction: column;
+        height: auto;
+        padding: 10px 0px;
+    } 
+    .nav-left {
+        width: 100%;
+        justify-content: center;
+    }
+    .nav-right {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .nav-right p {
+        color: #fff;
+        cursor: pointer;
+        border: 1px solid white;
+        padding: 5px 20px;
+        border-radius: 1.2rem;
+        min-width: 100px;
+        text-align: center;
+    }
+}
+
+
+.loginlogoutbtn{
+    background-color: white;
+    color: var(--col1);
+    padding: 10px 20px;
     border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    border: none;
+    margin: 10px;
 }

@@ -65,16 +65,20 @@
     padding: 10px;
     margin-top: 20px;
     border-radius: 20px;
+    margin: 20px 10px;
 }
 
-.table button{
-    background-color: rgb(255, 244, 94);
-    border: none;
-    border-radius: 20px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 20px;
+@media screen and (max-width: 550px) {
+    .prodsearchbar {
+        width: 250px;
+        align-self: center;
+        padding: 10px;
+        margin-top: 20px;
+        border-radius: 20px;
+        margin: 20px 10px;
+    }
 }
+    
 
 
 .editproductout{
@@ -96,7 +100,7 @@
     position: absolute;
     top: 10px;
     left: 10px;
-    background-color:white;
+    background-color:rgba(255, 255, 255, 0.562);
     border: none;
     border-radius: 20px;
     padding: 5px 10px;

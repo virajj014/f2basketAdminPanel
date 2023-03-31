@@ -6,6 +6,24 @@ import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const ManageSlider = () => {
+
+    const [islogin , setislogin] = React.useState(false)
+
+    const checklogin = () => {
+        if(localStorage.getItem('admin')){
+            setislogin(true)
+        }
+        else{
+            setislogin(false)
+            window.location.href = '/login'
+        }
+    }
+
+    React.useEffect(()=>{
+        checklogin()
+    },[])
+
+    
     const [newimage, setNewImage] = useState('')
 
     const uploadImage = (e) => {
