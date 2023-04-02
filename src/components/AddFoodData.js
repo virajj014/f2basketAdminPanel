@@ -9,21 +9,21 @@ import Navbar from './Navbar';
 const AddproductData = () => {
 
 
-    const [islogin , setislogin] = React.useState(false)
+    const [islogin, setislogin] = React.useState(false)
 
     const checklogin = () => {
-        if(localStorage.getItem('admin')){
+        if (localStorage.getItem('admin')) {
             setislogin(true)
         }
-        else{
+        else {
             setislogin(false)
             window.location.href = '/login'
         }
     }
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         checklogin()
-    },[])
+    }, [])
 
 
     const [productName, setproductName] = useState('')
@@ -32,11 +32,15 @@ const AddproductData = () => {
     const [productCategory, setproductCategory] = useState('')
     const [productpriceunit, setproductpriceunit] = useState('')
     const [productdescription, setproductdescription] = useState('')
+    const [productwholesaleprice, setproductwholesaleprice] = useState('')
+    const [productwholesalequantity, setproductwholesalequantity] = useState('')
+    const [productavailability, setproductavailability] = useState('')
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if(islogin == false){
+        if (islogin == false) {
             alert('Please login first')
             return
         }
@@ -63,7 +67,10 @@ const AddproductData = () => {
                                 productCategory,
                                 productpriceunit,
                                 id: new Date().getTime().toString(),
-                                productdescription
+                                productdescription,
+                                productwholesaleprice,
+                                productwholesalequantity,
+                                productavailability
                             }
 
                             // console.log(productData)
@@ -96,9 +103,17 @@ const AddproductData = () => {
                         onChange={(e) => { setproductName(e.target.value) }} />
                     <br />
 
+                    <label>Product Availability</label>
+                    <select name="product_availability" onChange={(e) => { setproductavailability(e.target.value) }}>
+                        <option value="null">Select Product Availability</option>
+                        <option value="IN STOCK">IN STOCK</option>
+                        <option value="OUT OF STOCK">OUT OF STOCK</option>
+                    </select>
+                    <br />
 
 
-                    <label>Product Price</label>
+
+                    <label>Product Price (Retail)</label>
                     <input type="number" name="product_price"
                         onChange={(e) => { setproductPrice(e.target.value) }}
                     />
@@ -110,6 +125,16 @@ const AddproductData = () => {
                         <option value="piece">Piece</option>
                         <option value="dozen">Dozen</option>
                     </select>
+
+                    <br />
+                    <label>Product Price (Wholesale)</label>
+                    <input type="number" name="product_price"
+                        onChange={(e) => { setproductwholesaleprice(e.target.value) }}
+                    />
+                    <label>Product Quantity (Wholesale)</label>
+                    <input type="number" name="product_price"
+                        onChange={(e) => { setproductwholesalequantity(e.target.value) }}
+                    />
 
                     <br />
 

@@ -61,6 +61,9 @@ const Navbar = () => {
                 <Link to='/manageslider' style={{ textDecoration: 'none' }}>
                     <p>Manage Slider</p>
                 </Link>
+                <Link to='/manageofferimages' style={{ textDecoration: 'none' }}>
+                    <p>Manage Offers</p>
+                </Link>
 
                 <div className='loginlogoutcont'>
                     {setlogin()}

@@ -11,30 +11,30 @@ import 'firebase/firestore'
 
 
 const ManageProducts = () => {
-    const [islogin , setislogin] = React.useState(false)
+    const [islogin, setislogin] = React.useState(false)
 
     const checklogin = () => {
-        if(localStorage.getItem('admin')){
+        if (localStorage.getItem('admin')) {
             setislogin(true)
         }
-        else{
+        else {
             setislogin(false)
             window.location.href = '/login'
         }
     }
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         checklogin()
-    },[])
+    }, [])
 
-    
+
     const [products, setproducts] = useState(null)
     const getallproducts = () => {
         let temp = []
         getDocs(collection(db, "productData"))
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    // console.log(doc.data())
+                    console.log(doc.data())
                     temp.push(doc.data())
                 });
                 setproducts(temp)
@@ -62,18 +62,25 @@ const ManageProducts = () => {
     const [productCategory, setproductCategory] = useState('')
     const [productpriceunit, setproductpriceunit] = useState('')
     const [productdescription, setproductdescription] = useState('')
+    const [productavailability, setproductavailability] = useState('')
+    const [productwholesaleprice, setproductwholesaleprice] = useState('')
+    const [productwholesalequantity, setproductwholesalequantity] = useState('')
     const [docid, setdocid] = useState('')
     const [editimage, seteditimage] = useState(false)
 
 
     const editproduct = async (product) => {
         // console.log(product)
+        setproductavailability(product.productAvailability)
         setproductName(product.productName)
         setproductPrice(product.productPrice)
         setproductCategory(product.productCategory)
         setproductpriceunit(product.productpriceunit)
         setproductImage(product.productImageUrl)
         setproductdescription(product.productdescription)
+        setproductwholesaleprice(product.productwholesaleprice)
+        setproductwholesalequantity(product.productwholesalequantity)
+
         setdocid(product.id)
         seteditpage(true)
 
@@ -93,7 +100,7 @@ const ManageProducts = () => {
         // else if (editimage == true) {
         //     alert(productImage)
         // }
-        console.log(productdescription)
+        // console.log(productdescription)
         if (editimage == false || productImage == '') {
             //update doc
             updateDoc(doc(db, "productData", docid), {
@@ -102,7 +109,10 @@ const ManageProducts = () => {
                 productCategory: productCategory,
                 productpriceunit: productpriceunit,
                 productImageUrl: productImage,
-                productdescription: productdescription
+                productdescription: productdescription,
+                productAvailability: productavailability,
+                productwholesaleprice: productwholesaleprice,
+                productwholesalequantity: productwholesalequantity
             })
                 .then(() => {
                     alert('product updated')
@@ -127,7 +137,10 @@ const ManageProducts = () => {
                                 productCategory: productCategory,
                                 productpriceunit: productpriceunit,
                                 productImageUrl: url,
-                                productdescription: productdescription
+                                productdescription: productdescription,
+                                productAvailability: productavailability,
+                                productwholesaleprice: productwholesaleprice,
+                                productwholesalequantity: productwholesalequantity
                             })
                                 .then(() => {
                                     alert('product updated')
@@ -142,23 +155,41 @@ const ManageProducts = () => {
                 })
         }
     }
+
+
+    const [category, setcategory] = useState('fruit')
     return (
         <div className='manageproducts'>
             <Navbar />
+            <h1 className="order-head1">Manage Products</h1>
 
             {/* <button onClick={() => console.log(products[0])}>click</button> */}
             <input type="text" placeholder="Search by name,price,category,unit" className='prodsearchbar'
                 onChange={(e) => setKeyword(e.target.value)} />
+            <select name="category" id="category" className='prodsearchbar'
+                onChange={(e) => setcategory(e.target.value)}
+            >
+                <option value="fruit">Fruits</option>
+                <option value="flower">Flower</option>
+                <option value="all">All</option>
+                <option value="plant">Plants</option>
+            </select>
             {
                 products && products.length > 0 &&
                 <table>
                     <thead>
-                        <th scope="col">Image</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Unit</th>
-                        <th scope="col">Edit</th>
+                        <tr>
+                            <th scope="col">Image</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Availability</th>
+                            <th scope="col">Price (Retail)</th>
+                            <th scope="col">Price (Wholesale)</th>
+                            <th scope="col">Min QTY (Wholesale)</th>
+
+                            <th scope="col">Category</th>
+                            <th scope="col">Unit</th>
+                            <th scope="col">Edit</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {
@@ -180,6 +211,14 @@ const ManageProducts = () => {
                                         return product
                                     }
                                 })
+                                .filter((product) => {
+                                    if (category === 'all') {
+                                        return product
+                                    }
+                                    else if (product.productCategory === category) {
+                                        return product
+                                    }
+                                })
                                 .map((product, index) => {
                                     return (
                                         <tr className='product' key={index}>
@@ -190,8 +229,27 @@ const ManageProducts = () => {
                                                 data-label="NAME"
                                             >{product.productName}</td>
                                             <td
-                                                data-label="PRICE"
+                                                data-label="AVAILABILITY"
+                                            >
+                                                {
+                                                    product.productAvailability ?
+                                                        product.productAvailability :
+                                                        'IN STOCK'
+                                                }
+                                            </td>
+                                            <td
+                                                data-label="PRICE (Retail)"
                                             >Rs. {product.productPrice}</td>
+                                            <td
+                                                data-label="PRICE (WholeSale)"
+                                            > {product.productwholesaleprice?
+                                                'Rs.' + product.productwholesaleprice:'NOT SET'}</td>
+                                            <td
+                                                data-label="Wholesale Quantity"
+                                            >{product.productwholesalequantity?
+                                                product.productwholesalequantity:'NOT SET'}
+                                                
+                                                </td>
                                             <td
                                                 data-label="CATEGORY"
                                             >{product.productCategory}</td>
@@ -231,6 +289,9 @@ const ManageProducts = () => {
                             setproductImage('')
                             setdocid('')
                             setproductdescription('')
+                            setproductavailability('')
+                            setproductwholesaleprice('')
+                            setproductwholesalequantity('')
                         }}
                     >Go Back</buttton>
                     <div className="form-outer">
@@ -241,12 +302,34 @@ const ManageProducts = () => {
                                 onChange={(e) => { setproductName(e.target.value) }} />
                             <br />
 
+                            <label>Product Availability</label>
+                            <select name="product_availability" onChange={(e) => { setproductavailability(e.target.value) }}>
+                                <option value="null">Select Product Availability</option>
+                                <option value="IN STOCK">IN STOCK</option>
+                                <option value="OUT OF STOCK">OUT OF STOCK</option>
+                            </select>
+                            <br />
 
-                            <label>Product Price</label>
+
+
+                            <label>Product Price (Retail)</label>
                             <input type="number" name="product_price"
                                 value={productPrice}
                                 onChange={(e) => { setproductPrice(e.target.value) }}
                             />
+
+                            <br />
+                            <label>Product Price (Wholesale)</label>
+                            <input type="number" name="product_price"
+                                onChange={(e) => { setproductwholesaleprice(e.target.value) }}
+                                value={productwholesaleprice}
+                            />
+                            <label>Product Quantity (Wholesale)</label>
+                            <input type="number" name="product_price"
+                                onChange={(e) => { setproductwholesalequantity(e.target.value) }}
+                                value={productwholesalequantity}
+                            />
+
 
                             <label>Product Price Unit</label>
                             <select name="product_price_unit" onChange={(e) => {

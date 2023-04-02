@@ -5,7 +5,7 @@ import { db, storage } from '../../Firebase/FirebaseConfig'
 import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-const ManageSlider = () => {
+const ManageOfferImages = () => {
 
     const [islogin , setislogin] = React.useState(false)
 
@@ -29,7 +29,7 @@ const ManageSlider = () => {
     const uploadImage = (e) => {
         e.preventDefault()
         if (newimage != null || newimage !== '') {
-            const imageRef = ref(storage, `sliderImages/${newimage.name}`)
+            const imageRef = ref(storage, `offerimages/${newimage.name}`)
             uploadBytes(imageRef, newimage)
                 .then(() => {
                     alert('Image uploaded successfully')
@@ -38,16 +38,16 @@ const ManageSlider = () => {
                             // console.log(url)
                             // setproductImageUrl(url)
 
-                            const sliderData = {
+                            const offerData = {
                                 sliderImageUrl: url,
                                 id: new Date().getTime().toString()
                             }
 
                             // console.log(productData)
                             try {
-                                const docRef = addDoc(collection(db, "sliderData"), sliderData);
+                                const docRef = addDoc(collection(db, "offerimages"), offerData);
                                 alert("Data added successfully ", docRef.id);
-                                getsliderData()
+                                getofferData()
                             }
                             catch (error) {
                                 alert("Error adding document: ", error);
@@ -64,20 +64,12 @@ const ManageSlider = () => {
     }
 
 
-    const [sliderData, setSliderData] = useState([])
+    const [offerData, setofferData] = useState([])
 
-    const getsliderData = () => {
+    const getofferData = () => {
         let temp = []
-        // db.collection('sliderData').onSnapshot((snapshot) => {
-        //     snapshot.docs.map((doc) => {
-        //         temp.push({
-        //             id: doc.id,
-        //             sliderImageUrl: doc.data().sliderImageUrl
-        //         })
-        //     })
-        // })
-
-        getDocs(collection(db, "sliderData"))
+   
+        getDocs(collection(db, "offerimages"))
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     // console.log(doc.data())
@@ -86,7 +78,7 @@ const ManageSlider = () => {
                         sliderImageUrl: doc.data().sliderImageUrl
                     })
                 });
-                setSliderData(temp)
+                setofferData(temp)
             })
             .catch((error) => {
                 console.log("Error getting documents: ", error);
@@ -95,16 +87,16 @@ const ManageSlider = () => {
 
 
     useEffect(() => {
-        getsliderData()
+        getofferData()
     }, [])
 
 
     const deletedata = (id) => {
         // console.log(id)
-       deleteDoc(doc(db, "sliderData", id))
+       deleteDoc(doc(db, "offerimages", id))
             .then(() => {
                 alert("Document successfully deleted!");
-                getsliderData()
+                getofferData()
             })
             .catch((error) => {
                 console.error("Error removing document: ", error);
@@ -113,8 +105,7 @@ const ManageSlider = () => {
     return (
         <div className='slidercont'>
             <Navbar />
-            <h1 className="order-head1">Slider Images</h1>
-
+            <h1 className="order-head1">Offer Images</h1>
             <div className='addsliderimg'>
                 <input type='file'
                     onChange={(e) => setNewImage(e.target.files[0])}
@@ -125,13 +116,13 @@ const ManageSlider = () => {
             </div>
 
             {
-                sliderData && sliderData.length > 0 &&
+                offerData && offerData.length > 0 &&
                 <div className='managesliderimg'>
                     {
-                        sliderData.map((item) => {
+                        offerData.map((item) => {
                             return (
                                 <div className='sliderimgcont'>
-                                    <img src={item.sliderImageUrl} alt='slider' />
+                                    <img src={item.sliderImageUrl} alt='slider' className=''/>
 
                                     <svg 
                                         onClick={() => deletedata(item.id)}
@@ -149,4 +140,4 @@ const ManageSlider = () => {
     )
 }
 
-export default ManageSlider
+export default ManageOfferImages
