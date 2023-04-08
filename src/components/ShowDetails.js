@@ -27,14 +27,14 @@ const ShowDetails = () => {
     const { orderid } = useParams()
     const [orderdata, setOrderData] = useState({})
     const [ordertotal, setOrderTotal] = useState(0)
-    console.log(orderid)
+    // console.log(orderid)
 
     const getorderdata = async () => {
         const docRef = doc(db, "Orders", orderid);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
+            console.log("Document data:", docSnap.data().orderaddress.addressline1);
             setOrderData(docSnap.data())
             let total = 0
             docSnap.data().orderdata.map((item) => {
@@ -81,7 +81,8 @@ const ShowDetails = () => {
                 </div>
                 <div className="orderetails_row">
                     <p>Order Address</p>
-                    <p>{orderdata.orderaddress}</p>
+                    <p>{orderdata?.orderaddress?.addressline1} <br></br>{orderdata?.orderaddress?.addressline2} <br></br>{orderdata?.orderaddress?.addressline3}<br></br>{orderdata?.orderaddress?.pincode}</p>
+                
                 </div>
 
                 <div className="orderetails_row">
@@ -108,7 +109,7 @@ const ShowDetails = () => {
                             orderdata.orderdata && orderdata.orderdata.map((item) => {
 
                                 let item1 = JSON.parse(item)
-                                console.log(item1)
+                                // console.log(item1)
                                 return (
                                     <div className="orderdetails_item">
                                         <p>{item1.productquantity} {item1.data.productName} - Rs. {item1.data.productPrice} / {item1.data.productpriceunit}</p>

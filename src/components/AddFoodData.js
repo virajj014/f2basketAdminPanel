@@ -34,7 +34,7 @@ const AddproductData = () => {
     const [productdescription, setproductdescription] = useState('')
     const [productwholesaleprice, setproductwholesaleprice] = useState('')
     const [productwholesalequantity, setproductwholesalequantity] = useState('')
-    const [productavailability, setproductavailability] = useState('')
+    const [productavailability, setproductavailability] = useState('iN STOCK')
 
 
     const handleSubmit = (e) => {
@@ -68,9 +68,9 @@ const AddproductData = () => {
                                 productpriceunit,
                                 id: new Date().getTime().toString(),
                                 productdescription,
-                                productwholesaleprice,
-                                productwholesalequantity,
-                                productavailability
+                                productwholesaleprice: productwholesaleprice? productwholesaleprice : productPrice,
+                                productwholesalequantity: productwholesalequantity? productwholesalequantity : 1,
+                                productavailability : productavailability? productavailability : 'IN STOCK'
                             }
 
                             // console.log(productData)
@@ -105,7 +105,7 @@ const AddproductData = () => {
 
                     <label>Product Availability</label>
                     <select name="product_availability" onChange={(e) => { setproductavailability(e.target.value) }}>
-                        <option value="null">Select Product Availability</option>
+                        <option value="IN STOCK">Select Product Availability</option>
                         <option value="IN STOCK">IN STOCK</option>
                         <option value="OUT OF STOCK">OUT OF STOCK</option>
                     </select>

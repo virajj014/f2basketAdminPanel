@@ -32,14 +32,26 @@ table th {
 
 
 
-table div {
+table .inputdiv {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 3px;
 }
-
+table .editdel{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+table div svg{
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    color: var(--col1);
+}
 table div input{
     width: 100%;
     /* width: 200px; */
@@ -132,7 +144,6 @@ table div button{
         padding: 5px 10px;
         border-radius: 5px;
         font-size: 16px;
-        background-color: var(--col1);
         color: white;
         margin: 0px;
     }

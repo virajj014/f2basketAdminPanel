@@ -190,7 +190,7 @@ const OrderSection = () => {
                             <tr>
                                 <td
                                     data-label="OrderId"
-                                >{order.orderid}</td>
+                                >{order.id}</td>
                                 <td
                                     data-label="Order Date"
                                 >{
@@ -297,7 +297,7 @@ const OrderSection = () => {
 
                                     {order.deliveryboy_name && order.deliveryboy_phone ? 
                                     <p className='ordertxt1'> {order.deliveryboy_name}<br></br> {order.deliveryboy_phone}</p> :
-                                        <div className='deliveryboy'>
+                                        <div className='deliveryboy inputdiv'>
                                             <input type="text" placeholder="Enter deliveryboy name"
                                                 onChange={(e) => { setDeliveryboyname(e.target.value) }}
                                             />

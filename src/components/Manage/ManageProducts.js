@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../Navbar'
 import { db, storage } from '../../Firebase/FirebaseConfig'
-import { addDoc, collection, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import './ManageProducts.css'
 import { doc } from "firebase/firestore";
@@ -35,7 +35,7 @@ const ManageProducts = () => {
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     console.log(doc.data())
-                    temp.push(doc.data())
+                    temp.push({ ...doc.data(), id: doc.id })
                 });
                 setproducts(temp)
             })
@@ -62,9 +62,9 @@ const ManageProducts = () => {
     const [productCategory, setproductCategory] = useState('')
     const [productpriceunit, setproductpriceunit] = useState('')
     const [productdescription, setproductdescription] = useState('')
-    const [productavailability, setproductavailability] = useState('')
-    const [productwholesaleprice, setproductwholesaleprice] = useState('')
-    const [productwholesalequantity, setproductwholesalequantity] = useState('')
+    const [productavailability, setproductavailability] = useState('IN STOCK')
+    const [productwholesaleprice, setproductwholesaleprice] = useState('0')
+    const [productwholesalequantity, setproductwholesalequantity] = useState('0')
     const [docid, setdocid] = useState('')
     const [editimage, seteditimage] = useState(false)
 
@@ -83,12 +83,6 @@ const ManageProducts = () => {
 
         setdocid(product.id)
         seteditpage(true)
-
-        // get doc name by prodductName
-        const docRef = query(collection(db, "productData"), where("productName", "==", product.productName));
-        const docSnap = await getDocs(docRef);
-        // console.log(docSnap.docs[0].id)
-        setdocid(docSnap.docs[0].id)
     }
 
     const handleSubmit = (e) => {
@@ -103,6 +97,7 @@ const ManageProducts = () => {
         // console.log(productdescription)
         if (editimage == false || productImage == '') {
             //update doc
+            console.log('old ', productavailability)
             updateDoc(doc(db, "productData", docid), {
                 productName: productName,
                 productPrice: productPrice,
@@ -110,12 +105,13 @@ const ManageProducts = () => {
                 productpriceunit: productpriceunit,
                 productImageUrl: productImage,
                 productdescription: productdescription,
-                productAvailability: productavailability,
-                productwholesaleprice: productwholesaleprice,
-                productwholesalequantity: productwholesalequantity
+                productAvailability: productavailability ? productavailability : 'IN STOCK',
+                productwholesaleprice: productwholesaleprice ? productwholesaleprice : productPrice,
+                productwholesalequantity: productwholesalequantity ? productwholesalequantity : 1,
             })
                 .then(() => {
                     alert('product updated')
+
                 })
                 .catch((error) => {
                     console.error("Error updating document: ", error);
@@ -123,7 +119,8 @@ const ManageProducts = () => {
         }
 
         else if (editimage == true && productImage != '') {
-            const imageRef = ref(storage, `productImages/${productImage}`);
+            let date = new Date()
+            const imageRef = ref(storage, `productImages/${date}`);
             uploadBytes(imageRef, productImage)
                 .then((snapshot) => {
                     alert('Image uploaded successfully')
@@ -144,6 +141,8 @@ const ManageProducts = () => {
                             })
                                 .then(() => {
                                     alert('product updated')
+                                    seteditimage(false)
+
                                 })
                                 .catch((error) => {
                                     console.error("Error updating document: ", error);
@@ -158,6 +157,19 @@ const ManageProducts = () => {
 
 
     const [category, setcategory] = useState('fruit')
+
+
+    const deleteproduct = (id) => {
+        // console.log(id)
+        deleteDoc(doc(db, "productData", id))
+            .then(() => {
+                alert('product deleted')
+                getallproducts()
+            })
+            .catch((error) => {
+                console.error("Error removing document: ", error);
+            });
+    }
     return (
         <div className='manageproducts'>
             <Navbar />
@@ -242,14 +254,14 @@ const ManageProducts = () => {
                                             >Rs. {product.productPrice}</td>
                                             <td
                                                 data-label="PRICE (WholeSale)"
-                                            > {product.productwholesaleprice?
-                                                'Rs.' + product.productwholesaleprice:'NOT SET'}</td>
+                                            > {product.productwholesaleprice ?
+                                                'Rs.' + product.productwholesaleprice : 'NOT SET'}</td>
                                             <td
                                                 data-label="Wholesale Quantity"
-                                            >{product.productwholesalequantity?
-                                                product.productwholesalequantity:'NOT SET'}
-                                                
-                                                </td>
+                                            >{product.productwholesalequantity ?
+                                                product.productwholesalequantity : 'NOT SET'}
+
+                                            </td>
                                             <td
                                                 data-label="CATEGORY"
                                             >{product.productCategory}</td>
@@ -259,10 +271,16 @@ const ManageProducts = () => {
                                             <td
                                                 data-label="EDIT"
                                             >
-                                                <div>
+                                                <div className='editdel'>
                                                     <button
                                                         onClick={() => editproduct(product)}
                                                     >Edit</button>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6" 
+                                                        onClick={() => deleteproduct(product.id)}
+                                                    >
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                                                    </svg>
+
                                                 </div>
                                             </td>
                                         </tr>
@@ -304,7 +322,7 @@ const ManageProducts = () => {
 
                             <label>Product Availability</label>
                             <select name="product_availability" onChange={(e) => { setproductavailability(e.target.value) }}>
-                                <option value="null">Select Product Availability</option>
+                                <option value="IN STOCK">Select Product Availability</option>
                                 <option value="IN STOCK">IN STOCK</option>
                                 <option value="OUT OF STOCK">OUT OF STOCK</option>
                             </select>
