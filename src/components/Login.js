@@ -19,7 +19,7 @@ const Login = () => {
   return (
     <div className='logincont'>
         <div className='loginformcont'>
-            <h1>F2Basket - Admin Login</h1>
+            <h1>Fresh Buy - Admin Login</h1>
             <form>
                 <input type='text' placeholder='Username' 
                     onChange={(e)=>setUsername(e.target.value)}

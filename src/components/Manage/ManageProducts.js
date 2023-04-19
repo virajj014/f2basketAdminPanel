@@ -106,8 +106,8 @@ const ManageProducts = () => {
                 productImageUrl: productImage,
                 productdescription: productdescription,
                 productAvailability: productavailability ? productavailability : 'IN STOCK',
-                productwholesaleprice: productwholesaleprice ? productwholesaleprice : productPrice,
-                productwholesalequantity: productwholesalequantity ? productwholesalequantity : 1,
+                // productwholesaleprice: productwholesaleprice ? productwholesaleprice : productPrice,
+                // productwholesalequantity: productwholesalequantity ? productwholesalequantity : 1,
             })
                 .then(() => {
                     alert('product updated')
@@ -136,8 +136,8 @@ const ManageProducts = () => {
                                 productImageUrl: url,
                                 productdescription: productdescription,
                                 productAvailability: productavailability,
-                                productwholesaleprice: productwholesaleprice,
-                                productwholesalequantity: productwholesalequantity
+                                // productwholesaleprice: productwholesaleprice,
+                                // productwholesalequantity: productwholesalequantity
                             })
                                 .then(() => {
                                     alert('product updated')
@@ -252,7 +252,7 @@ const ManageProducts = () => {
                                             <td
                                                 data-label="PRICE (Retail)"
                                             >Rs. {product.productPrice}</td>
-                                            <td
+                                            {/* <td
                                                 data-label="PRICE (WholeSale)"
                                             > {product.productwholesaleprice ?
                                                 'Rs.' + product.productwholesaleprice : 'NOT SET'}</td>
@@ -261,7 +261,7 @@ const ManageProducts = () => {
                                             >{product.productwholesalequantity ?
                                                 product.productwholesalequantity : 'NOT SET'}
 
-                                            </td>
+                                            </td> */}
                                             <td
                                                 data-label="CATEGORY"
                                             >{product.productCategory}</td>
@@ -336,7 +336,7 @@ const ManageProducts = () => {
                                 onChange={(e) => { setproductPrice(e.target.value) }}
                             />
 
-                            <br />
+                            {/* <br />
                             <label>Product Price (Wholesale)</label>
                             <input type="number" name="product_price"
                                 onChange={(e) => { setproductwholesaleprice(e.target.value) }}
@@ -346,7 +346,7 @@ const ManageProducts = () => {
                             <input type="number" name="product_price"
                                 onChange={(e) => { setproductwholesalequantity(e.target.value) }}
                                 value={productwholesalequantity}
-                            />
+                            /> */}
 
 
                             <label>Product Price Unit</label>

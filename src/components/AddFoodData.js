@@ -68,8 +68,8 @@ const AddproductData = () => {
                                 productpriceunit,
                                 id: new Date().getTime().toString(),
                                 productdescription,
-                                productwholesaleprice: productwholesaleprice? productwholesaleprice : productPrice,
-                                productwholesalequantity: productwholesalequantity? productwholesalequantity : 1,
+                                // productwholesaleprice: productwholesaleprice? productwholesaleprice : productPrice,
+                                // productwholesalequantity: productwholesalequantity? productwholesalequantity : 1,
                                 productavailability : productavailability? productavailability : 'IN STOCK'
                             }
 
@@ -126,7 +126,7 @@ const AddproductData = () => {
                         <option value="dozen">Dozen</option>
                     </select>
 
-                    <br />
+                    {/* <br />
                     <label>Product Price (Wholesale)</label>
                     <input type="number" name="product_price"
                         onChange={(e) => { setproductwholesaleprice(e.target.value) }}
@@ -136,7 +136,7 @@ const AddproductData = () => {
                         onChange={(e) => { setproductwholesalequantity(e.target.value) }}
                     />
 
-                    <br />
+                    <br /> */}
 
                     <label>Product Category</label>
                     <select name="product_category" onChange={(e) => { setproductCategory(e.target.value) }}>

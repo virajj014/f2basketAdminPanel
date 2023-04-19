@@ -45,7 +45,7 @@ const Navbar = () => {
     return (
         <div className="navbar">
             <div className="nav-left">
-                <h1>Orchard Fresh</h1>
+                <h1>Fresh Buy</h1>
             </div>
             <div className="nav-right">
                 <Link to='/orders' style={{ textDecoration: 'none' }}>
